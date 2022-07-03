@@ -1,0 +1,32 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate = "layout/main.html">
+    <div layout:fragment = "mainContent">
+        <div class="row">
+            <div class="container mx-auto">
+                <div class="col-12 card-deck row mx-auto">
+                    <div class="col-6 p-2 mx-auto" th:each="app : ${applicationRequests}">
+                        <div class="card border-light border-2">
+                            <div class="card-header bg-white">
+                                <span class="text-danger fw-bold" th:text="'*(' + #{label.appStatus1} + ') '"
+                                      th:unless="${app.is_handled}"></span>
+                                <span class="fw-bold" th:text="#{label.appFrom} + ' ' + ${app.getUserName()}"></span>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text fw-bold text-black-50" th:text="#{label.course} + ' ' +
+                                    ${app.getCourse().getName()}"></p>
+                                <p class="card-text text-black-50" th:text="${app.getCommentary()}"></p>
+                                <span class="card-text fw-bold" th:text="#{label.phone} + ' ' +
+                                    ${app.getPhone()}"></span>
+                                <span class="ms-3">
+                                    <a th:href="@{'/detailsApplicationRequest/' + ${app.getId()}}"
+                                       class="text-decoration-none" th:text="#{button.details}"></a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>

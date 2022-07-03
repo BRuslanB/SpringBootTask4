@@ -1,0 +1,104 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate = "layout/main.html">
+    <div layout:fragment = "mainContent">
+        <div th:if = "${applicationRequest != null}">
+            <div class="row">
+                <div class="col-6 offset-3">
+                    <h5 class="my-2 text-danger text-center" th:text="'*** ' + #{label.appStatus2} + ' ***'"
+                        th:unless="${applicationRequest.is_handled}"></h5>
+                    <h5 class="my-2 text-success text-center" th:text="#{label.appStatus3}"
+                        th:if="${applicationRequest.is_handled}"></h5>
+                    <form th:action="@{'/saveApplicationRequest'}" method="post">
+                        <input type="hidden" name="app_id" th:value="${applicationRequest.id}">
+                        <input type="hidden" name="app_handled" th:value="${applicationRequest.is_handled}">
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <label th:text="#{label.userName}"></label>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-12">
+                                <input type="text" class="form-control" name="app_user_name" readonly
+                                    th:value="${applicationRequest.userName}">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <label th:text="#{label.course}"></label>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-12">
+                                <select class="form-select" name="app_course_id" disabled="disabled">
+                                    <option th:each="crs : ${courses}" th:text="${crs.name}" th:value="${crs.id}"
+                                        th:selected="${applicationRequest != null && applicationRequest.course != null
+                                        && applicationRequest.course.id==crs.id}"></option>
+                                </select>
+                                <!--<input type="hidden" name="app_course_id" th:value="${crs.id}">-->
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <label th:text="#{label.phone}"></label>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-12">
+                                <input type="text" class="form-control" name="app_phone" readonly
+                                   th:value="${applicationRequest.phone}">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <label th:text="#{label.commentary}"></label>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-12">
+                                <textarea class="form-control" name="app_commentary" readonly
+                                    th:text="${applicationRequest.commentary}"></textarea>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <button class="btn btn-success" th:text="#{button.saveAppReq}"
+                                        th:unless="${applicationRequest.is_handled}"></button>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-danger ms-2"
+                                        data-bs-toggle="modal" data-bs-target="#deleteAppReqModal"
+                                        th:text="#{button.deleteAppReq}">
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Modal Delete -->
+            <div class="modal fade" id="deleteAppReqModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                 tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form th:action="@{'/deleteApplicationRequest'}" method="post">
+                            <input type="hidden" name="app_id" th:value="${applicationRequest.id}">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel"
+                                    th:text="#{modal.titleModalDelete}"></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h3 th:text="#{message.confirmDelete}"></h3>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                        th:text="#{button.cancel}"></button>
+                                <button class="btn btn-danger" th:text="#{button.yes}"></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>
