@@ -56,7 +56,7 @@ public class AppReqServiceImpl implements ApplicationRequestService {
 
     @Override
     public List<Course> getAllCourses() {
-        return courseRepository.findAll();
+        return courseRepository.findAllSortByName();
     }
 
     @Override

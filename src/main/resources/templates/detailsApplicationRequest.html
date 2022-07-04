@@ -31,9 +31,11 @@
                         <div class="row mt-2">
                             <div class="col-12">
                                 <select class="form-select" name="app_course_id" disabled="disabled">
-                                    <option th:each="crs : ${courses}" th:text="${crs.name}" th:value="${crs.id}"
-                                        th:selected="${applicationRequest != null && applicationRequest.course != null
-                                        && applicationRequest.course.id==crs.id}"></option>
+                                    <option th:each="crs : ${courses}" th:value="${crs.id}"
+                                            th:text="${crs.name} + ' - $' + ${crs.price}"
+                                            th:selected="${applicationRequest != null
+                                                && applicationRequest.course != null
+                                                && applicationRequest.course.id==crs.id}"></option>
                                 </select>
                                 <!--<input type="hidden" name="app_course_id" th:value="${crs.id}">-->
                             </div>

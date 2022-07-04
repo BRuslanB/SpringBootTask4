@@ -23,9 +23,6 @@ public class ApplicationRequest {
     @Column(name = "user_name")
     private String userName;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Course course;
-
     @Column(name = "commentary")
     private String commentary;
 
@@ -34,4 +31,7 @@ public class ApplicationRequest {
 
     @Column(name = "handled")
     private boolean is_handled; //обработано или нет
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Course course;
 }

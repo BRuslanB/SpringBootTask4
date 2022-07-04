@@ -22,4 +22,10 @@ public class Course {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "price")
+    private int price;
 }

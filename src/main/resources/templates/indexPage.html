@@ -14,7 +14,7 @@
                             </div>
                             <div class="card-body">
                                 <p class="card-text fw-bold text-black-50" th:text="#{label.course} + ' ' +
-                                    ${app.getCourse().getName()}"></p>
+                                    ${app.getCourse().getName()} + ' - $' + ${app.getCourse().getPrice()}"></p>
                                 <p class="card-text text-black-50" th:text="${app.getCommentary()}"></p>
                                 <span class="card-text fw-bold" th:text="#{label.phone} + ' ' +
                                     ${app.getPhone()}"></span>

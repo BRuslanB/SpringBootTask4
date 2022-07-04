@@ -24,7 +24,8 @@
                     <div class="row mt-2">
                         <div class="col-12">
                             <select class="form-select" name="app_course_id" required>
-                                <option th:each="crs : ${courses}" th:text="${crs.name}"
+                                <option th:each="crs : ${courses}"
+                                        th:text="${crs.name} + ' - $' + ${crs.price}"
                                         th:value="${crs.id}"></option>
                             </select>
                         </div>
