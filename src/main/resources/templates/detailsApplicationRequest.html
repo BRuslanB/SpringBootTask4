@@ -10,8 +10,6 @@
                     <h5 class="my-2 text-success text-center" th:text="#{label.appStatus3}"
                         th:if="${applicationRequest.is_handled}"></h5>
                     <div>
-<!--                        <input type="hidden" name="app_id" th:value="${applicationRequest.id}">-->
-<!--                        <input type="hidden" name="app_handled" th:value="${applicationRequest.is_handled}">-->
                         <div class="row mt-3">
                             <div class="col-12">
                                 <label th:text="#{label.userName}"></label>
@@ -107,7 +105,8 @@
                                             <td>
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox"
-                                                           th:value="${op.id}" name="app_mas_operators[]">
+                                                           th:value="${op.id}" name="app_mas_operators[]"
+                                                           th:checked="${!not_chosen_operators.contains(op)}">
                                                 </div>
                                             </td>
                                             <td th:text="${op.name}"></td>
@@ -122,7 +121,7 @@
                                         th:text="#{button.cancel}">
                                 </button>
                                 <button class="btn btn-primary" th:text="#{button.appoint}"
-                                    onclick="return checkSelected()">
+                                        th:onclick="'return checkSelected(\'' + #{interface.language} + '\')'">
                                 </button>
                             </div>
                         </form>
@@ -187,7 +186,9 @@
     </div>
 </html>
 <script>
-    function checkSelected(){
+    function checkSelected(lang){
+        //в качестве параметра передаем язык выбранного интрефейса
+        //alert(lang);
         var inputs, check;
         inputs = document.getElementsByClassName("form-check-input");
         check = false;
@@ -198,7 +199,10 @@
             }
         }
         if (!check){
-            alert("Не выбран ни один оператор!")
+            if (lang == 'РУС')
+                alert("Оператор(ы) не выбран(ы)!");
+            else
+                alert("No operator(s) selected!");
         }
         return check;
     }

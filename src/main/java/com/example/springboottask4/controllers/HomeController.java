@@ -105,25 +105,33 @@ public class HomeController {
         List<Operator> operators = applicationRequestService.getAllOperators();
         model.addAttribute("operators", operators);
 
+        List<Operator> not_chosen_operators = applicationRequestService.getAllOperators();
+        if (not_chosen_operators != null && applicationRequest.getOperators() != null){
+            not_chosen_operators.removeAll(applicationRequest.getOperators());
+        }
+        model.addAttribute("not_chosen_operators", not_chosen_operators);
+
         return "detailsApplicationRequest";
     }
 
     @PostMapping(value = "/saveApplicationRequest")
     public String saveApplicationRequest(@RequestParam(name = "app_id") Long id,
-                                         @RequestParam(value = "app_mas_operators[]", defaultValue = "null") String[] s_operators,
+//                                         @RequestParam(value = "app_mas_operators[]", defaultValue = "null") String[] s_operators,
+                                         @RequestParam(value = "app_mas_operators[]", defaultValue = "null") Long[] mas_operators,
                                          @RequestParam(name = "app_handled") boolean is_handled) {
 
-        Long[] mas_operators;
-        try {
-            mas_operators = new Long[s_operators.length];
-            //out.print("mas_operators.length =" + mas_operators.length + "\n");
-            for (int i = 0; i < s_operators.length; i++) {
-                mas_operators[i] = Long.parseLong(s_operators[i]);
-                //out.print("mas_operators[" + i +"]" + "=" + mas_operators[i] + ", ");
-            }
-        } catch (Exception e) {
-            mas_operators = null;
-        }
+//        Фрагмент кода нужен при возвражение app_mas_operators[] пустым или ошибки приобразования из null
+//        Long[] mas_operators;
+//        try {
+//            mas_operators = new Long[s_operators.length];
+//            //out.print("mas_operators.length =" + mas_operators.length + "\n");
+//            for (int i = 0; i < s_operators.length; i++) {
+//                mas_operators[i] = Long.parseLong(s_operators[i]);
+//                //out.print("mas_operators[" + i +"]" + "=" + mas_operators[i] + ", ");
+//            }
+//        } catch (Exception e) {
+//            mas_operators = null;
+//        }
 
         ApplicationRequest applicationRequest = applicationRequestService.getAppRequest(id);
 
@@ -167,6 +175,9 @@ public class HomeController {
                 List<Operator> operators = applicationRequest.getOperators();
                 if (operators != null){
                     operators.remove(op);
+                    if (operators.isEmpty()){
+                        applicationRequest.set_handled(false);
+                    }
                 }
 
                 applicationRequestService.saveAppRequest(applicationRequest);
